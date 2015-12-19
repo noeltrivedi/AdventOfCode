@@ -12,15 +12,44 @@ public class DayTwo
 	
 	public static void main(String args[])
 	{
-		new DayTwo().solve();
+		new DayTwo().solvePartTwo();
 	}
 	
-	public void solve()
+	DayTwo()
 	{
+		//read in the file and fill the dimensions array
 		readFile();
+	}
+	
+	public void solvePartTwo()
+	{
 		int soln = 0;
 		
-		//findSurfaceArea(dimensions.get(0));
+		for(Integer[] input : dimensions)
+		{
+			soln += findRibbonArea(input);
+		}
+		
+		
+		System.out.println(soln);
+	}
+	
+	private int findRibbonArea(Integer[] dim)
+	{
+		int area = 0;
+		int max = Math.max(dim[0], Math.max(dim[1], dim[2]));
+		
+		//add 2* the lowest perimeter
+		area += 2* Math.min(dim[0]+dim[1], Math.min(dim[0]+dim[2], dim[1]+dim[2]));
+		
+		area += dim[0] * dim[1] * dim[2];
+		
+		return area;
+	}
+	
+	public void solvePartOne()
+	{
+		int soln = 0;
 		
 		for(Integer[] input : dimensions)
 		{
