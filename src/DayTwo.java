@@ -40,8 +40,7 @@ public class DayTwo
 		int max = Math.max(dim[0], Math.max(dim[1], dim[2]));
 		
 		//add 2* the lowest perimeter
-		area += 2* Math.min(dim[0]+dim[1], Math.min(dim[0]+dim[2], dim[1]+dim[2]));
-		
+		area += 2 * (dim[0] + dim[1] + dim[2] - max);
 		area += dim[0] * dim[1] * dim[2];
 		
 		return area;
