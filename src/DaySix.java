@@ -11,12 +11,12 @@ public class DaySix
 	private final String parsePattern = "(.+)\\s(\\d+),(\\d+).+\\s(\\d+),(\\d+)";
 	private final String inputFile = "day6input.txt";
 	
-	private boolean[][] lights = new boolean[1000][1000];
+	private int[][] lights = new int[1000][1000];
 	private Pattern parser;
 	
 	public static void main(String args[])
 	{
-		new DaySix().solvePartOne();
+		new DaySix().solvePartTwo();
 	}
 	
 	public DaySix()
@@ -30,7 +30,7 @@ public class DaySix
 		{
 			for(int j = s.y; j <= e.y; j++)
 			{
-				lights[i][j] = !lights[i][j];
+				lights[i][j] += 2;
 			}
 		}
 	}
@@ -41,7 +41,7 @@ public class DaySix
 		{
 			for(int j = s.y; j <= e.y; j++)
 			{
-				lights[i][j] = true;
+				lights[i][j] += 1;
 			}
 		}
 	}
@@ -52,12 +52,13 @@ public class DaySix
 		{
 			for(int j = s.y; j <= e.y; j++)
 			{
-				lights[i][j] = false;
+				if(lights[i][j] > 0)
+					lights[i][j] -= 1;
 			}
 		}
 	}
 	
-	private void solvePartOne()
+	private void solvePartTwo()
 	{
 		try
 		{
@@ -67,21 +68,24 @@ public class DaySix
 			{
 				System.out.println(line);
 				Matcher m = parser.matcher(line);
-				System.out.println(m.matches());
-				String token = m.group(1);
-				Point start = new Point(Integer.parseInt(m.group(2)), Integer.parseInt(m.group(3)));
-				Point end = new Point(Integer.parseInt(m.group(4)), Integer.parseInt(m.group(5)));
-				switch(token)
+				if(m.matches())
 				{
-				case "toggle":
-					toggle(start, end);
-					break;
-				case "turn on":
-					turnOn(start, end);
-					break;
-				case "turn off":
-					turnOff(start, end);
-					break;
+					String token = m.group(1);
+					Point start = new Point(Integer.parseInt(m.group(2)), Integer.parseInt(m.group(3)));
+					Point end = new Point(Integer.parseInt(m.group(4)), Integer.parseInt(m.group(5)));
+					switch(token)
+					{
+					case "toggle":
+						toggle(start, end);
+						break;
+					case "turn on":
+						turnOn(start, end);
+						break;
+					case "turn off":
+						turnOff(start, end);
+						break;
+					}
+
 				}
 			}
 			
@@ -97,7 +101,7 @@ public class DaySix
 		int onCount = 0;
 		for(int i = 0; i < 1000; i++)
 			for(int j = 0; j <1000; j++)
-				if(lights[i][j]) onCount++;
+				onCount += lights[i][j];
 		System.out.println(onCount);
 	}
 }
